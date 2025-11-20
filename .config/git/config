@@ -1,0 +1,34 @@
+[init]
+	defaultBranch = main
+
+[core]
+	editor = nvim
+	pager = delta
+
+[user]
+	name = Ismail-Elgohary
+	email = ismailelgohary173@gmail.com
+	sigingkey= ~/.ssh/id_ed25519.pub
+[gpg]
+	format = ssh
+
+[commit]
+	gpgsign = false
+
+[push]
+	default = simple
+	autoSetupRemote = true
+
+[pull]
+	rebase = true
+
+[rebase]
+	autoStash = true
+
+[delta]
+	tabs = 4
+	side-by-side = false
+	line-numbers = true
+	syntax-theme = Nord
+	file-modified-label = modified:
+

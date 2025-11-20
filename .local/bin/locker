@@ -1,0 +1,2 @@
+#!/bin/sh
+exec gtklock  --idle-hide --idle-timeout 30

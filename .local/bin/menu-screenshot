@@ -1,0 +1,39 @@
+#!/bin/sh
+
+notify() {
+	notify-send -a "$(basename "$0")" "$@"
+}
+
+for p in grim slurp wl-copy notify-send xdg-user-dir; do
+	command -v "$p" >/dev/null 2>&1 || { notify -u critical "$p not found"; exit 1; }
+done
+
+dir="$(xdg-user-dir PICTURES)/screenshots"
+[ -d "$dir" ] || mkdir -p "$dir" || { notify -u critical "error" "cannot create directory $dir"; exit 1; }
+
+sel="${1:-$(printf "select\nfullscreen\nselect-copy\nfullscreen-copy" | menu -p "$(basename "$0")> ")}"
+out="$dir/$(date "+%Y%m%d-%H%M%S").png"
+case "$sel" in
+	select)
+		g="$(slurp -d)" || exit 1
+		grim -g "$g" "$out"
+		notify "screenshot" "saved to $out"
+		;;
+	fullscreen)
+		grim "$out"
+		notify "screenshot" "saved to $out"
+		;;
+	select-copy)
+		g="$(slurp -d)" || exit 1
+		grim -g "$g" - | wl-copy -t image/png
+		notify "screenshot" "saved to clipboard"
+		;;
+	fullscreen-copy)
+		grim - | wl-copy -t image/png
+		notify "screenshot" "saved to clipboard"
+		;;
+	*)
+		notify -u critical "invalid selection: $sel"
+		exit 1
+	;;
+esac
