@@ -1,0 +1,40 @@
+#!/bin/sh
+
+alias xi="sudo pacman -S"
+alias u="sudo pacman -Syu"
+alias pkginst="doas pacman -Sq --needed --noconfirm"
+
+alias e="${EDITOR: -vi }"
+alias q="exit"
+alias c="clear"
+alias bm="buku --suggest"
+alias spf="sudo poweroff"
+alias dm="nmtui"
+
+
+alias mkd="mkdir -pv"
+alias cp="cp -iv"
+alias ln="ln -iv"
+alias mv="mv -iv"
+alias rm="rm -Iv"
+alias ls="ls -hF --color=auto --group-directories-first"
+alias ll="ls -lA"
+alias grep="grep --color=auto"
+alias gr="grep --exclude-dir={.git,node_modules} -Hnr"
+# git
+alias g="git"
+alias gst="git status -sb"
+alias gph="git push"
+alias gpl="git pull"
+alias gdf="git diff"
+alias gm="git commit -m"
+alias gd="git add ."
+alias gl="git clone"
+
+
+alias dcz="e  $HOME/dotfiles/.config/zsh/.zshrc"
+alias dcff="e $HOME/dotfiles/.config/foot/foot.ini"
+alias dcr="e  $HOME/dotfiles/.config/river/init"
+alias dcsa="e $HOME/dotfiles/.config/shell/aliasrc"
+alias bkm="e  $HOME/docs/notes/noterc"
+alias dcn="cd $HOME/dotfiles/.config/nvim"

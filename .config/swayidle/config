@@ -1,0 +1,7 @@
+lock "locker || gtklock -fork-on-lock"
+before-sleep "locker || gtklock -fork-on-lock"
+idlehint 1200
+timeout 180 "brightnessctl -qsc backlight set 10%" resume "brightnessctl -r >/dev/null"
+timeout 300 "locker || gtklock -fork-on-lock"
+timeout 330 "wlopm --off '*'" resume "wlopm --on '*'"
+timeout 1200 "timeout 1 playerctl -a status | grep Playing || loginctl suspend-then-hibernate"
