@@ -7,7 +7,6 @@ riverctl map normal Super K focus-view previous
 riverctl map normal Super+Shift J swap next
 riverctl map normal Super+Shift K swap previous
 riverctl map normal Super q close
-
 riverctl map -repeat normal Super H send-layout-cmd rivertile "main-ratio -0.05"
 riverctl map -repeat normal Super L send-layout-cmd rivertile "main-ratio +0.05"
 riverctl map -repeat normal Super+Shift H send-layout-cmd rivertile "main-count +1"

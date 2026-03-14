@@ -8,7 +8,7 @@ background-blur = false
 shell-integration-features = no-cursor,no-sudo,no-title
 gtk-titlebar = false
 
-gtk-single-instance = true
+gtk-single-instance = false
 shell-integration = none
 
 #keybindes

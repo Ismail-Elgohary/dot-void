@@ -6,6 +6,6 @@ doas -n /usr/bin/loadkeys "$XDG_CONFIG_HOME/loadkeys/loadkeysrc"
 
 [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && exec "$XDG_CONFIG_HOME/river/run"
 
-export NVM_DIR="$HOME/.config/nvim"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+export NVIM_DIR="$HOME/.config/nvim"
+[ -s "$NVIM_DIR/nvm.sh" ] && \. "$NVIM_DIR/nvm.sh"
+[ -s "$NVIM_DIR/bash_completion" ] && \. "$NVIM_DIR/bash_completion"
