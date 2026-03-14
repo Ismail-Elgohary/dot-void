@@ -27,6 +27,7 @@ return {
 					["<C-Space>"] = cmp.mapping.complete(),
 				}),
 				sources = cmp.config.sources({
+				    { name = "vsnip" },
 					{ name = "nvim_lsp" },
 					{ name = "nvim_lua" },
 					{ name = "luasnip" },
@@ -40,6 +41,3 @@ return {
 		end,
 	},
 }
-
-
-

@@ -42,7 +42,7 @@ for i in $(seq 1 9); do
 done
 
 riverctl map normal Super Return spawn "ghostty"
-riverctl map normal Super W spawn "zen-browser"
+riverctl map normal Super W spawn "firefox"
 riverctl map normal Super R spawn "fuzzel"
 riverctl map normal Super+Shift q spawn "menu-sysact"
 riverctl map normal None Print spawn "menu-screenshot"

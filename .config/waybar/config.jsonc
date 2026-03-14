@@ -9,7 +9,6 @@
 	"modules-center": [
 		// "river/window",
 		"clock#date",
-		"clock#time",
 		"privacy",
 		"custom/recording"
 	],
@@ -28,14 +27,10 @@
 		"num-tags": 9,
 		"hide-vacant": true
 	},
-	"clock#time": {
-		"interval": 10,
-		"format": " {:%H:%M}",
-		"tooltip": false
-	},
+
 	"clock#date": {
 		"interval": 60,
-		"format": " {:%a %d %b}",
+		"format": "{:%a %d %b %H:%M}",
 		"tooltip-format": "<span size='10pt'>{calendar}</span>",
 		"calendar": {
 			"mode": "month",
@@ -130,9 +125,9 @@
 		"tooltip-format-disconnected": "Disconnected"
 	},
 	"bluetooth": {
-		"format": "", // " {status}",
-		"format-connected": " {device_alias}",
-		"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+     	"format": "",
+		"format-connected": " on {device_alias}",
+		"format-connected-battery": "on  {device_alias} {device_battery_percentage}%",
 		"on-click": "foot -a float bluetoothctl",
 		"tooltip-format": "{controller_alias}\t{controller_address}",
 		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n{device_enumerate}",
@@ -166,7 +161,6 @@
 		"exec": "$XDG_CONFIG_HOME/waybar/scripts/dnd",
 		"on-click": "makoctl mode -r dnd >/dev/null 2>&1",
 		"tooltip": false,
-		"hide-empty-text": true,
 		"signal": 7
 	},
 	"custom/recording": {

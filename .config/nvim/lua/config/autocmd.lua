@@ -8,6 +8,11 @@ autocmd({ "BufNewFile", "BufRead" }, {
 	command = "setlocal ft=c",
 })
 
+autocmd({ "TermRequest", "ModeChanged" }, {
+    desc = "Refresh tabline",
+    callback = function() vim.cmd.redrawtabline() end,
+})
+
 autocmd("FileType", {
 	group = filetype_group,
 	pattern = { "python", "ruby", "yaml", "markdown" },
@@ -50,4 +55,5 @@ autocmd("BufWritePre", {
 			apply = true,
 		})
 	end,
+
 })

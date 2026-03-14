@@ -32,7 +32,7 @@ sudocmd="$([ -s /etc/doas.conf ] && command -v doas 2>/dev/null || command -v su
 setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
-	$sudocmd cp -rfvt /etc "$HERE/etc/."
+	#$sudocmd cp -rfvt /etc "$HERE/etc/."
 	$sudocmd mkdir -pv /var/cache/zsh
 	[ -n "${WINEPREFIX:-}" ] &&
 		command -v wine >/dev/null 2>&1 &&
@@ -41,6 +41,7 @@ setup_dotfiles() {
 		gsettings set org.gnome.desktop.interface color-scheme prefer-dark &&
 		[ -n "${GTK_THEME:-}" ] &&
 		gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME"
+	return 0
 }
 
 
@@ -59,11 +60,13 @@ setup_pkgs() {
 	command -v rustup >/dev/null 2>&1 &&
 		rustup default stable &&
 		cargo install cargo-update cargo-info
+	return 0
 }
 
 setup_user() {
 	chsh -s "$(which zsh)"
 	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner,dbus,docker,nixbld "$USER"
+	return 0
 }
 
 setup_runit() {
@@ -90,6 +93,7 @@ setup_runit() {
 		/etc/sv/sshd \
 		/etc/sv/cupsd \
 		/etc/sv/docker
+	return 0
 }
 
 setup_ufw() {

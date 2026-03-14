@@ -1,10 +1,9 @@
 #!/bin/sh
 
-alias xi="sudo pacman -S"
-alias u="sudo pacman -Syu"
-alias pkginst="doas pacman -Sq --needed --noconfirm"
+alias xi="sudo xbps-install -S"
+alias u="sudo xbps-intsall -Syu"
 
-alias e="${EDITOR: -vi }"
+alias e="nvim"
 alias q="exit"
 alias c="clear"
 alias bm="buku --suggest"
@@ -30,11 +29,3 @@ alias gdf="git diff"
 alias gm="git commit -m"
 alias gd="git add ."
 alias gl="git clone"
-
-
-alias dcz="e  $HOME/dotfiles/.config/zsh/.zshrc"
-alias dcff="e $HOME/dotfiles/.config/foot/foot.ini"
-alias dcr="e  $HOME/dotfiles/.config/river/init"
-alias dcsa="e $HOME/dotfiles/.config/shell/aliasrc"
-alias bkm="e  $HOME/docs/notes/noterc"
-alias dcn="cd $HOME/dotfiles/.config/nvim"
