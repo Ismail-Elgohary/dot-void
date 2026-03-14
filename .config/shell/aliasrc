@@ -34,6 +34,18 @@ alias adb='env HOME="$ANDROID_USER_HOME" adb'
 alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 
+
+
+
+
+alias np="npm run dev"
+alias jss="json-server --watch db.json --port 4000"
+
+
+
+
+
+
 lfcd() {
 	cd "$(command lf -print-last-dir "$@")" || return $?
 }
