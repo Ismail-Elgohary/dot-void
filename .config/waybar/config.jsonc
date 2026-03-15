@@ -1,32 +1,57 @@
 {
-	"layer": "top",
-	"position": "top",
-	"height": 1,
-	"modules-left": [
-		"river/tags",
-		"river/mode"
-	],
-	"modules-center": [
+  "layer": "top",
+  "position": "top",
+  "height": "1",
+  "modules-left": [
+  "river/tags",
+  "river/mode"
+  ],
+
+		"modules-center": [
 		// "river/window",
 		"clock#date",
 		"privacy",
 		"custom/recording"
 	],
-	"modules-right": [
-		"tray",
-		"custom/dnd",
-		"pulseaudio",
-		"bluetooth",
-		"network",
-		"memory",
-		"cpu",
-		"temperature",
-		"battery"
-	],
+
+  "modules-right": [
+    "custom/pomodoro",
+    "bluetooth",
+    "network",
+    "pulseaudio",
+    "backlight",
+    "battery",
+	"memory",
+	"cpu"
+  ],
 	"river/tags": {
 		"num-tags": 9,
 		"hide-vacant": true
 	},
+
+  "bluetooth": {
+    "format": "󰂲",
+    "format-on": "{icon}",
+    "format-off": "{icon}",
+    "format-connected":"{icon}",
+    "format-icons":{
+        "on":"󰂯",
+        "off": "󰂲",
+        "connected": "󰂱",
+        },
+    "on-click": "blueman-manager",
+    "tooltip-format-connected":"{device_enumerate}"
+  },
+
+  "custom/music": {
+    "format": "  {}",
+    "escape": true,
+    "interval": 5,
+    "tooltip": false,
+    "exec": "playerctl metadata --format='{{ artist }} - {{ title }}'",
+    "on-click": "playerctl play-pause",
+    "max-length": 50
+  },
 
 	"clock#date": {
 		"interval": 60,
@@ -52,124 +77,59 @@
 			"on-scroll-down": "shift_down"
 		}
 	},
-	"pulseaudio": {
-		"format": "{icon}{volume}%",
-		"format-muted": " muted",
-		"on-click": "foot -a float pulsemixer",
-		"on-click-right": "helvum",
-		"on-click-middle": "volumectl toggle",
-		"max-volume": 200,
-		"scroll-step": 5,
-		"format-icons": {
-			"headphone": " ",
-			"hands-free": " ",
-			"headset": " ",
-			"default": [
-				" ",
-				" ",
-				" "
-			]
-		}
-	},
-	"battery": {
-		"interval": 60,
-		"states": {
-			"warning": 20
-		},
-		"format": "{icon}{capacity}%",
-		"format-charging": "{icon}{capacity}% ",
-		"format-plugged": "{icon}{capacity}% ",
-		"format-warning": "{icon}{capacity}% ",
-		"format-time": "{H}h {M}m",
-		"format-icons": [
-			" ",
-			" ",
-			" ",
-			" ",
-			" "
-		]
-	},
-	"temperature": {
-		"interval": 10,
-		"critical-threshold": 80,
-		"format": "{icon} {temperatureC}°C",
-		"format-icons": [
-			"",
-			"",
-			"",
-			"",
-			""
-		]
-	},
-	"cpu": {
-		"interval": 10,
-		"format": " {}%",
-		"max-length": 10
-	},
+
+  "network": {
+    "format-wifi": "󰤢",
+    "format-ethernet": "󰈀 ",
+    "format-disconnected": "󰤠 ",
+    "interval": 5,
+    "tooltip-format": "{essid} ({signalStrength}%)",
+    "on-click": "ghostty -a float nmtui",
+
+ },
+
+  "cpu": {
+    "interval": 1,
+    "format": "  {icon0}{icon1}{icon2}{icon3} {usage:>2}%",
+    "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+    "on-click": "ghostty -e htop"
+  },
+
 	"memory": {
 		"interval": 30,
 		"format": " {used:0.1f}G",
 		"tooltip-format": "mem:  {used:0.1f}G/{total:0.1f}G ({percentage}%)\nswap: {swapUsed:0.1f}G/{swapTotal:0.1f}G ({swapPercentage}%)",
 		"max-length": 10
 	},
-	"network": {
-		"interface": "wlan0",
-		"format": "{ifname}",
-		"format-wifi": " {signalStrength}%",
-		"format-ethernet": "{ipaddr}/{cidr} ",
-		"format-disconnected": "",
-		"on-click": "foot -a float nmtui",
-		"tooltip-format": "{ifname} via {gwaddr} 󰊗",
-		"tooltip-format-wifi": "{essid} ({frequency}GHz)\n{ipaddr}/{cidr} at {ifname}",
-		"tooltip-format-ethernet": "{ifname} ",
-		"tooltip-format-disconnected": "Disconnected"
-	},
-	"bluetooth": {
-     	"format": "",
-		"format-connected": " on {device_alias}",
-		"format-connected-battery": "on  {device_alias} {device_battery_percentage}%",
-		"on-click": "foot -a float bluetoothctl",
-		"tooltip-format": "{controller_alias}\t{controller_address}",
-		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n{device_enumerate}",
-		"tooltip-format-enumerate-connected": "- {device_alias}\t[{device_address}]",
-		"tooltip-format-enumerate-connected-battery": "- {device_alias}\t[{device_address}]\t({device_battery_percentage}%)"
-	},
-	"privacy": {
-		"icon-spacing": 4,
-		"icon-size": 18,
-		"transition-duration": 250,
-		"modules": [
-			{
-				"type": "screenshare",
-				"tooltip": true,
-				"tooltip-icon-size": 24
-			},
-			{
-				"type": "audio-in",
-				"tooltip": true,
-				"tooltip-icon-size": 24
-			}
-		]
-	},
-	"tray": {
-		"icon-size": 18,
-		"spacing": 12
-	},
-	"custom/dnd": {
-		"format": "{}",
-		"interval": "once",
-		"exec": "$XDG_CONFIG_HOME/waybar/scripts/dnd",
-		"on-click": "makoctl mode -r dnd >/dev/null 2>&1",
-		"tooltip": false,
-		"signal": 7
-	},
-	"custom/recording": {
-		"format": "{}",
-		"interval": "once",
-		"exec": "echo ''",
-		"exec-if": "pidof -sqx wf-recorder",
-		"on-click": "menu-record stop",
-		"tooltip": false,
-		"signal": 8
-	}
+
+
+  "backlight": {
+        "format": "{icon}  {percent}%",
+        "format-icons": ["","󰃜", "󰃛", "󰃞","󰃝","󰃟","󰃠"],
+        "tooltip": false
+  },
+
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-muted": "",
+    "format-icons": {
+      "default": ["", "", " "]
+    },
+    "on-click": "pavucontrol"
+  },
+
+  "battery": {
+        "interval":2,
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon}  {capacity}%",
+        "format-full": "{icon}  {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{icon} {time}",
+        "format-icons": ["", "", "", "", ""]
+}
 }

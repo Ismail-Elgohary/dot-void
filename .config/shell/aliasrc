@@ -1,4 +1,9 @@
 #!/bin/sh
+alias xi="sudo xbps-install -S"
+alias u="sudo xbps-install -Su"
+alias xr="sudo xbps-remove -R"
+alias xq="xbps-query -Rs"
+
 
 # shellcheck disable=SC2153
 alias e='${EDITOR:-vi}'
@@ -10,7 +15,7 @@ alias ln="ln -iv"
 alias mv="mv -iv"
 alias rm="rm -Iv"
 alias ls="ls -hF --color=auto --group-directories-first"
-alias ll="ls -lA"
+alias ll="lsd -A"
 alias grep="grep --color=auto"
 alias gr="grep -Hnr"
 
@@ -20,6 +25,7 @@ alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
 alias gm="git commit -m"
+alias gd="git add ."
 
 alias ip="ip -color=auto"
 alias bc="bc -ql"
@@ -35,15 +41,8 @@ alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 
 
-
-
-
 alias np="npm run dev"
 alias jss="json-server --watch db.json --port 4000"
-
-
-
-
 
 
 lfcd() {
