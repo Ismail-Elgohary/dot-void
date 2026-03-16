@@ -131,5 +131,15 @@
         "format-plugged": " {capacity}%",
         "format-alt": "{icon} {time}",
         "format-icons": ["", "", "", "", ""]
-}
+},
+
+	"custom/recording": {
+		"format": "{}",
+		"interval": "once",
+		"exec": "echo ''",
+		"exec-if": "pidof -sqx wf-recorder",
+		"on-click": "menu-record stop",
+		"tooltip": false,
+		"signal": 8
+	}
 }
