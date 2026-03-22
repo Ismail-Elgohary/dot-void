@@ -4,7 +4,6 @@ alias u="sudo xbps-install -Su"
 alias xr="sudo xbps-remove -R"
 alias xq="xbps-query -Rs"
 
-
 # shellcheck disable=SC2153
 alias e='${EDITOR:-vi}'
 alias q="exit"
@@ -15,7 +14,7 @@ alias ln="ln -iv"
 alias mv="mv -iv"
 alias rm="rm -Iv"
 alias ls="ls -hF --color=auto --group-directories-first"
-alias ll="lsd -A"
+alias ll="ls -lA"
 alias grep="grep --color=auto"
 alias gr="grep -Hnr"
 
@@ -41,8 +40,9 @@ alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 
 
-alias np="npm run dev"
-alias jss="json-server --watch db.json --port 4000"
+# applications for Flatpak
+alias obsidian="flatpak run md.obsidian.Obsidian"
+alias postman=" flatpak run com.getpostman.Postman"
 
 
 lfcd() {
