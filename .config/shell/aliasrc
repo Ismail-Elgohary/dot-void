@@ -7,6 +7,7 @@ alias xq="xbps-query -Rs"
 # shellcheck disable=SC2153
 alias e='${EDITOR:-vi}'
 alias q="exit"
+alias dm="nmtui"
 alias c="clear"
 alias mkd="mkdir -pv"
 alias cp="cp -iv"
@@ -19,6 +20,7 @@ alias grep="grep --color=auto"
 alias gr="grep -Hnr"
 
 alias g="git"
+alias gl="git clone"
 alias gst="git status -sb"
 alias gph="git push"
 alias gpl="git pull"
@@ -39,11 +41,17 @@ alias adb='env HOME="$ANDROID_USER_HOME" adb'
 alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 
-
 # applications for Flatpak
 alias obsidian="flatpak run md.obsidian.Obsidian"
 alias postman=" flatpak run com.getpostman.Postman"
+alias anydesk="flatpak run com.anydesk.Anydesk"
 
+# files
+alias flxx="cd ~/pics/flx/src/"
+alias flxh="e ~/pics/flx/src/components/home/Hero.tsx"
+alias flxp="cd ~/pics/flx/src/pages/"
+alias flxn="e ~/pics/flx/src/components/layout/Header.tsx"
+alias flxf="e ~/pics/flx/src/components/layout/Footer.tsx"
 
 lfcd() {
 	cd "$(command lf -print-last-dir "$@")" || return $?

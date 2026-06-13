@@ -1,0 +1,54 @@
+default_layout "default"
+pane_frames false
+simplified_ui true
+mouse_mode false
+show_startup_tips false
+theme "default"
+keybinds clear-defaults=true {
+
+  normal {
+
+    bind "Alt n" { NewPane; }
+
+    // focus movement (vim style)
+    bind "Alt l" { MoveFocus "left"; }
+    bind "Alt j" { MoveFocus "down"; }
+    bind "Alt k" { MoveFocus "up"; }
+    bind "Alt r" { MoveFocus "right"; }
+
+    // tabs
+    bind "Alt t" { NewTab; }
+    bind "Alt w" { CloseTab; }
+
+    // full screen / floating
+    bind "Alt f" { ToggleFocusFullscreen; }
+    bind "Alt e" { ToggleFloatingPanes; }
+
+    // detach (safe exit)
+    bind "Ctrl d" { Detach; }
+  }
+
+  pane {
+    bind "h" { MoveFocus "left"; }
+    bind "j" { MoveFocus "down"; }
+    bind "k" { MoveFocus "up"; }
+    bind "l" { MoveFocus "right"; }
+
+    bind "n" { NewPane; SwitchToMode "Normal"; }
+    bind "x" { CloseFocus; SwitchToMode "Normal"; }
+  }
+
+  tab {
+    bind "n" { NewTab; SwitchToMode "Normal"; }
+    bind "x" { CloseTab; SwitchToMode "Normal"; }
+    bind "h" { GoToPreviousTab; }
+    bind "l" { GoToNextTab; }
+  }
+
+  resize {
+    bind "h" { Resize "Increase left"; }
+    bind "l" { Resize "Increase right"; }
+    bind "j" { Resize "Increase down"; }
+    bind "k" { Resize "Increase up"; }
+  }
+}

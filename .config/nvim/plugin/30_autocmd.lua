@@ -43,17 +43,17 @@ autocmd("BufWritePre", {
 
 autocmd("BufWritePre", {
 	group = format_group,
-	pattern = "*.go",
+	pattern = { "*.ts", "*.js", "*.tsx", "*.jsx" },
 	callback = function()
 		vim.lsp.buf.format()
+
 		vim.lsp.buf.code_action({
 			context = {
-				only = {
+             only = {
 					"source.organizeImports",
 				},
 			},
 			apply = true,
 		})
 	end,
-
 })

@@ -102,3 +102,4 @@ fi
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 [ -r /usr/share/z/z.sh ] && . /usr/share/z/z.sh
+
