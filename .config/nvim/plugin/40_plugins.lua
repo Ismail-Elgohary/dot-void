@@ -14,14 +14,6 @@ local function pack_add(specs, opts)
 	end
 end
 
-local function ColorMyPencils(color)
-	color = color or "tokyonight"
-	vim.cmd.colorscheme(color)
-
-	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-end
-
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
 		local src, name, kind = ev.data.spec.src, ev.data.spec.name, ev.data.kind
@@ -52,6 +44,7 @@ pack_add({
 				"zig",
 				"cpp",
 				"rust",
+				"go",
 				"python",
 				"lua",
 				"bash",
@@ -64,6 +57,7 @@ pack_add({
 				"typescript",
 				"javascript",
 				"vue",
+				"svelte",
 			}
 			local filetypes = {
 				"sh",
@@ -227,55 +221,35 @@ pack_add({
 			})
 		end,
 	},
-{
-	src = "https://github.com/ellisonleao/gruvbox.nvim",
-	version = "main",
-	config = function()
-		require("gruvbox").setup({
-			terminal_colors = true,
-			undercurl = true,
-			underline = false,
-			bold = true,
-			italic = {
-				strings = false,
-				emphasis = false,
-				comments = false,
-				operators = false,
-				folds = false,
-			},
-			strikethrough = true,
-			invert_selection = false,
-			invert_signs = false,
-			invert_tabline = false,
-			invert_intend_guides = false,
-			inverse = true,
-			contrast = "",
-			palette_overrides = {},
-			overrides = {},
-			dim_inactive = false,
-			transparent_mode = true,
-		})
-
-		vim.cmd.colorscheme("gruvbox")
-	end,
-},
 	{
-		src = "https://github.com/folke/tokyonight.nvim",
-		lazy = false,
-		opts = {},
+		src = "https://github.com/AlexvZyl/nordic.nvim",
+		version = "main",
 		config = function()
-			require("tokyonight").setup({
-				style = "storm",
-				transparent = true,
-				terminal_colors = true,
-				styles = {
-					comments = { italic = false },
-					keywords = { italic = false },
-					sidebars = "dark",
-					floats = "dark",
+			require("nordic").setup({
+				transparent = {
+					bg = true,
+					float = false,
 				},
+				on_highlight = function(highlights, palette)
+					highlights.Comment = {
+						fg = palette.gray5,
+					}
+					highlights.StatusLine = {
+						fg = palette.while3,
+						bg = palette.gray2,
+					}
+					highlights.LineNr = {
+						fg = palette.gray5,
+					}
+					highlights.PmenuSel = {
+						bg = palette.blue0,
+					}
+					highlights.PmenuThumb = {
+						bg = palette.blue0,
+					}
+				end,
 			})
-			ColorMyPencils("tokyonight")
+			require("nordic").load({})
 		end,
 	},
 	{
@@ -434,36 +408,77 @@ pack_add({
 			})
 		end,
 	},
-
-     {
-      src = "https://github.com/hrsh7th/nvim-cmp",
-		dependencies = {
-
-             { src = "https://github.com/hrsh7th/cmp-buffer" },
-             { src = "https://github.com/hrsh7th/cmp-path" },
-             { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
-             { src = "https://github.com/hrsh7th/cmp-nvim-lua" },
-
-		},
+	{
+		src = "https://github.com/saghen/blink.cmp",
+		version = vim.version.range("1.*"),
 		config = function()
-			local cmp = require("cmp")
-			cmp.setup({
-				mapping = cmp.mapping.preset.insert({
-					["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-					["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-					["<C-d>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<TAB>"] = cmp.mapping.confirm({ select = true }),
-					["<C-Space>"] = cmp.mapping.complete(),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "nvim_lua" },
+			require("blink.cmp").setup({
+				keymap = {
+					preset = "default",
 				},
-				{
-					{ name = "buffer", keyword_length = 5 },
-					{ name = "path" },
-				}),
+				appearance = {
+					nerd_font_variant = "mono",
+					kind_icons = {},
+				},
+				cmdline = {
+					keymap = {
+						preset = "inherit",
+					},
+					completion = {
+						menu = {
+							auto_show = false,
+						},
+						ghost_text = {
+							enabled = true,
+						},
+					},
+				},
+				completion = {
+					list = {
+						selection = {
+							preselect = true,
+							auto_insert = false,
+						},
+					},
+					documentation = {
+						auto_show = false,
+					},
+					ghost_text = {
+						enabled = true,
+					},
+					menu = {
+						draw = {
+							components = {
+								source_name = {
+									width = { max = 30 },
+									text = function(ctx)
+										return "[" .. ctx.source_name .. "]"
+									end,
+									highlight = "BlinkCmpSource",
+								},
+							},
+							columns = {
+								{ "kind_icon", "label",       gap = 1 },
+								{ "kind",      "source_name", gap = 1 },
+							},
+							treesitter = { "lsp" },
+						},
+					},
+				},
+				sources = {
+					default = { "lsp", "snippets", "path", "buffer" },
+				},
+				signature = {
+					enabled = true,
+				},
+				fuzzy = {
+					implementation = "prefer_rust_with_warning",
+					sorts = {
+						"score",
+						"sort_text",
+						"label",
+					},
+				},
 			})
 		end,
 	},
@@ -540,6 +555,13 @@ pack_add({
 		version = "main",
 		config = function()
 			require("gopher").setup({})
+		end,
+	},
+	{
+		src = "https://github.com/nvim-flutter/flutter-tools.nvim",
+		version = "main",
+		config = function()
+			require("flutter-tools").setup({})
 		end,
 	},
 	{

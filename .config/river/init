@@ -43,6 +43,7 @@ done
 riverctl map normal Super Return spawn "ghostty"
 riverctl map normal Super W spawn "firefox"
 riverctl map normal Super R spawn "fuzzel"
+riverctl map normal Super E spawn "emacs"
 riverctl map normal Super+Shift q spawn "menu-sysact"
 riverctl map normal None Print spawn "menu-screenshot"
 riverctl map normal Super I spawn "menu-handler"
