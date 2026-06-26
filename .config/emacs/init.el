@@ -98,6 +98,9 @@
   :init
   (vertico-mode))
 
+(use-package vterm
+    :ensure t)
+
 (use-package orderless
   :ensure t
   :custom
