@@ -205,6 +205,12 @@
 
 (use-package magit)
 
+(use-package move-text
+  :ensure t
+  :config
+  (global-set-key (kbd "M-j") #'move-text-down)
+  (global-set-key (kbd "M-k") #'move-text-up))
+
 (use-package windmove
   :ensure nil
   :config
