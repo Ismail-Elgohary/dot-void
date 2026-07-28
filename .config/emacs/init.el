@@ -7,7 +7,7 @@
 
 (add-hook 'eglot-managed-mode-hook
           (lambda ()
-            (flymake-mode -1)))
+            (flymake-mode 1)))
 
 (set-face-attribute 'default nil
                     :height 170)
@@ -54,6 +54,13 @@
 (use-package saveplace
   :ensure nil
   :init (save-place-mode 1))
+
+
+(use-package apheleia
+  :ensure t
+  :config
+  (apheleia-global-mode +1))
+
 
 (use-package autorevert
   :ensure nil
@@ -107,7 +114,7 @@
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides
-   '((file (styles partial-completion)))))
+  '((file (styles partial-completion)))))
 
 (use-package consult
   :ensure t)
@@ -275,15 +282,18 @@
     "b d" '(kill-current-buffer :which-key "Kill Buffer")
     "w v" '(split-window-right :which-key "Vertical")
     "w d" '(delete-window :which-key "Delete")
-    "p p" '(project-switch-project :which-key "Project")
-    "p f" '(project-find-file :which-key "Project File")
     "g s" '(magit-status :which-key "Magit")
-    "/" '(consult-line :which-key "Search")))
+    "h r" '(reload-init-file :which-key "Reload Config")
+    "n n" '((lambda () (interactive) (find-file "~/personal/notes/links.txt")) :which-key "Notes")
+    "/" '(consult-line :which-key "Search")
+    "y"   '(evil-yank :which-key "Yank")
+    "ss" '((lambda () (interactive) (evil-ex "%s/")) :which-key "Replace (vim style)")))
 
-(leader
-  "y y" '(evil-yank-line :which-key "Yank Line")
-  "y"   '(evil-yank :which-key "Yank")
-  "p"   '(evil-paste-after :which-key "Paste")
-  "P"   '(evil-paste-before :which-key "Paste Before"))
+
+(defun reload-init-file()
+(interactive)
+(load-file user-init-file)
+(message "Reloaded done"))
+
 
 (provide 'init)

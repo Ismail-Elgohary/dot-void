@@ -46,13 +46,6 @@ alias obsidian="flatpak run md.obsidian.Obsidian"
 alias postman=" flatpak run com.getpostman.Postman"
 alias anydesk="flatpak run com.anydesk.Anydesk"
 
-# files
-alias flxx="cd ~/pics/flx/src/"
-alias flxh="e ~/pics/flx/src/components/home/Hero.tsx"
-alias flxp="cd ~/pics/flx/src/pages/"
-alias flxn="e ~/pics/flx/src/components/layout/Header.tsx"
-alias flxf="e ~/pics/flx/src/components/layout/Footer.tsx"
-
 lfcd() {
 	cd "$(command lf -print-last-dir "$@")" || return $?
 }
