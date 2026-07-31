@@ -3,7 +3,8 @@
 (setq load-prefer-newer t)
 
 (add-hook 'emacs-startup-hook
-          (lambda () (setq gc-cons-threshold (* 20 1000 1000))))
+          (lambda ()
+            (setq gc-cons-threshold (* 20 1000 1000))))
 
 (add-hook 'eglot-managed-mode-hook
           (lambda ()
@@ -11,19 +12,28 @@
 
 (set-face-attribute 'default nil
                     :height 170)
-
 (require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                          ("org"   . "https://orgmode.org/elpa/")
-                          ("elpa"  . "https://elpa.gnu.org/packages/")))
-(setq package-archive-priorities '(("melpa" . 10) ("elpa" . 5) ("org" . 5)))
+
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("org"   . "https://orgmode.org/elpa/")
+        ("elpa"  . "https://elpa.gnu.org/packages/")))
+
+(setq package-archive-priorities
+      '(("melpa" . 10)
+        ("elpa" . 5)
+        ("org" . 5)))
+
 (package-initialize)
+
 (unless package-archive-contents
   (package-refresh-contents))
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
+
 (require 'use-package)
+
 (setq use-package-always-ensure t)
 (setq use-package-verbose nil)
 
@@ -44,28 +54,32 @@
 
 (use-package recentf
   :ensure nil
-  :init (recentf-mode 1)
-  :custom (recentf-max-saved-items 200))
+  :init
+  (recentf-mode 1)
+  :custom
+  (recentf-max-saved-items 200))
 
 (use-package savehist
   :ensure nil
-  :init (savehist-mode 1))
+  :init
+  (savehist-mode 1))
 
 (use-package saveplace
   :ensure nil
-  :init (save-place-mode 1))
-
+  :init
+  (save-place-mode 1))
 
 (use-package apheleia
   :ensure t
   :config
   (apheleia-global-mode +1))
 
-
 (use-package autorevert
   :ensure nil
-  :init (global-auto-revert-mode 1)
-  :custom (auto-revert-verbose nil))
+  :init
+  (global-auto-revert-mode 1)
+  :custom
+  (auto-revert-verbose nil))
 
 (setq-default indent-tabs-mode nil
               tab-width 2)
@@ -80,10 +94,17 @@
 (column-number-mode 1)
 (scroll-bar-mode -1)
 
-(setq display-line-numbers-mode 'relative)
+(setq display-line-numbers-type 'relative)
+
 (global-display-line-numbers-mode 1)
-(dolist (hook '(org-mode-hook term-mode-hook eshell-mode-hook vterm-mode-hook))
-  (add-hook hook (lambda () (display-line-numbers-mode 0))))
+
+(dolist (hook '(org-mode-hook
+                term-mode-hook
+                eshell-mode-hook
+                vterm-mode-hook))
+  (add-hook hook
+            (lambda ()
+              (display-line-numbers-mode 0))))
 
 (use-package doom-themes
   :config
@@ -92,21 +113,40 @@
 (use-package nerd-icons)
 
 (use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom (doom-modeline-height 25))
+  :init
+  (doom-modeline-mode 1)
+  :custom
+  (doom-modeline-height 25))
 
 (use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 (electric-pair-mode 1)
 
 (use-package vertico
   :ensure t
   :init
-  (vertico-mode))
+  (vertico-mode)
 
-(use-package vterm
-    :ensure t)
+  :custom
+  (vertico-count 15)
+  (vertico-resize nil)
+  (vertico-cycle t))
+
+(use-package vertico-multiform
+  :ensure nil
+  :after vertico
+  :config
+  (vertico-multiform-mode 1))
+
+(use-package vertico-buffer
+  :ensure nil
+  :after vertico
+  :config
+  (add-to-list 'display-buffer-alist
+               '("\\*Vertico\\*"
+                 display-buffer-at-bottom)))
 
 (use-package orderless
   :ensure t
@@ -114,9 +154,12 @@
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides
-  '((file (styles partial-completion)))))
+   '((file (styles partial-completion)))))
 
 (use-package consult
+  :ensure t)
+
+(use-package vterm
   :ensure t)
 
 (use-package corfu
@@ -146,7 +189,8 @@
   :custom
   (kind-icon-default-face 'corfu-default)
   :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  (add-to-list 'corfu-margin-formatters
+               #'kind-icon-margin-formatter))
 
 (use-package which-key
   :ensure t
@@ -154,37 +198,69 @@
   (which-key-mode))
 
 (setq treesit-language-source-alist
-      '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-        (tsx        "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-        (json       "https://github.com/tree-sitter/tree-sitter-json")
-        (python     "https://github.com/tree-sitter/tree-sitter-python")
-        (bash       "https://github.com/tree-sitter/tree-sitter-bash")
-        (css        "https://github.com/tree-sitter/tree-sitter-css")
-        (html       "https://github.com/tree-sitter/tree-sitter-html")
-        (yaml       "https://github.com/ikatyang/tree-sitter-yaml")
-        (markdown   "https://github.com/ikatyang/tree-sitter-markdown")))
+      '((typescript
+         "https://github.com/tree-sitter/tree-sitter-typescript"
+         "master"
+         "typescript/src")
 
-(dolist (lang (mapcar #'car treesit-language-source-alist))
+        (tsx
+         "https://github.com/tree-sitter/tree-sitter-typescript"
+         "master"
+         "tsx/src")
+
+        (javascript
+         "https://github.com/tree-sitter/tree-sitter-javascript")
+
+        (json
+         "https://github.com/tree-sitter/tree-sitter-json")
+
+        (python
+         "https://github.com/tree-sitter/tree-sitter-python")
+
+        (bash
+         "https://github.com/tree-sitter/tree-sitter-bash")
+
+        (css
+         "https://github.com/tree-sitter/tree-sitter-css")
+
+        (html
+         "https://github.com/tree-sitter/tree-sitter-html")
+
+        (yaml
+         "https://github.com/ikatyang/tree-sitter-yaml")
+
+        (markdown
+         "https://github.com/ikatyang/tree-sitter-markdown")))
+
+(dolist (lang (mapcar #'car treesit-language-source-alist)
+             )
   (unless (treesit-language-available-p lang)
     (treesit-install-language-grammar lang)))
 
 (use-package treesit-auto
-  :custom (treesit-auto-install 'prompt)
+  :custom
+  (treesit-auto-install 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
 (use-package eglot
   :ensure nil
-  :hook ((typescript-ts-mode tsx-ts-mode js-ts-mode
-          python-ts-mode
-          rust-ts-mode
-          go-ts-mode) . eglot-ensure)
-  :custom (eglot-autoshutdown t))
+  :hook
+  ((typescript-ts-mode
+    tsx-ts-mode
+    js-ts-mode
+    python-ts-mode
+    rust-ts-mode
+    go-ts-mode)
+   . eglot-ensure)
+  :custom
+  (eglot-autoshutdown t))
 
 (use-package yasnippet
-  :init (yas-global-mode 1))
+  :init
+  (yas-global-mode 1))
+
 (use-package yasnippet-snippets)
 
 (use-package org
@@ -195,20 +271,8 @@
   (org-agenda-files '("~/org/")))
 
 (use-package org-modern
-  :hook (org-mode . org-modern-mode))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+  :hook
+  (org-mode . org-modern-mode))
 
 (use-package magit)
 
@@ -275,7 +339,7 @@
     :prefix "SPC")
 
   (leader
-    "f f" '(find-file :which-key "Find File")
+    "f f" '(consult-fd :which-key "Find File")
     "f r" '(consult-recent-file :which-key "Recent")
     "f s" '(save-buffer :which-key "Save")
     "b b" '(switch-to-buffer :which-key "Buffers")
@@ -284,16 +348,27 @@
     "w d" '(delete-window :which-key "Delete")
     "g s" '(magit-status :which-key "Magit")
     "h r" '(reload-init-file :which-key "Reload Config")
-    "n n" '((lambda () (interactive) (find-file "~/personal/notes/links.txt")) :which-key "Notes")
     "/" '(consult-line :which-key "Search")
-    "y"   '(evil-yank :which-key "Yank")
+    "y" '(evil-yank :which-key "Yank")
+    "t t" '(vterm :which-key "Terminal")
     "ss" '((lambda () (interactive) (evil-ex "%s/")) :which-key "Replace (vim style)")))
 
+(defun reload-init-file ()
+  (interactive)
+  (load-file user-init-file)
+  (message "Reloaded done"))
 
-(defun reload-init-file()
-(interactive)
-(load-file user-init-file)
-(message "Reloaded done"))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages nil))
 
-
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 (provide 'init)
