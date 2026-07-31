@@ -12,6 +12,7 @@
 
 (set-face-attribute 'default nil
                     :height 170)
+
 (require 'package)
 
 (setq package-archives
@@ -48,7 +49,8 @@
       custom-safe-themes t)
 
 (setq backup-directory-alist
-      `(("." . ,(expand-file-name "backups" user-emacs-directory))))
+      `(("." . ,(expand-file-name "backups"
+                                  user-emacs-directory))))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -81,10 +83,11 @@
   :custom
   (auto-revert-verbose nil))
 
+
 (setq-default indent-tabs-mode nil
               tab-width 2)
 
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "<escape>") #'keyboard-escape-quit)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -106,6 +109,8 @@
             (lambda ()
               (display-line-numbers-mode 0))))
 
+(electric-pair-mode 1)
+
 (use-package doom-themes
   :config
   (load-theme 'doom-one t))
@@ -122,31 +127,15 @@
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-(electric-pair-mode 1)
-
 (use-package vertico
   :ensure t
   :init
   (vertico-mode)
-
   :custom
-  (vertico-count 15)
+  (vertico-count 20)
   (vertico-resize nil)
-  (vertico-cycle t))
-
-(use-package vertico-multiform
-  :ensure nil
-  :after vertico
-  :config
-  (vertico-multiform-mode 1))
-
-(use-package vertico-buffer
-  :ensure nil
-  :after vertico
-  :config
-  (add-to-list 'display-buffer-alist
-               '("\\*Vertico\\*"
-                 display-buffer-at-bottom)))
+  (vertico-cycle t)
+  (vertico-preselect 'first))
 
 (use-package orderless
   :ensure t
@@ -154,10 +143,12 @@
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides
-   '((file (styles partial-completion)))))
+   '((file (styles orderless)))))
 
 (use-package consult
   :ensure t)
+
+(setq consult-preview-key 'any)
 
 (use-package vterm
   :ensure t)
@@ -232,10 +223,6 @@
         (markdown
          "https://github.com/ikatyang/tree-sitter-markdown")))
 
-(dolist (lang (mapcar #'car treesit-language-source-alist)
-             )
-  (unless (treesit-language-available-p lang)
-    (treesit-install-language-grammar lang)))
 
 (use-package treesit-auto
   :custom
@@ -293,45 +280,95 @@
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev))
 
+
 (use-package evil
   :init
   (setq evil-want-integration t
         evil-want-keybinding nil
         evil-want-C-u-scroll t
         evil-want-C-i-jump t)
-
   :config
   (evil-mode 1))
+
 
 (use-package evil-goggles
   :config
   (evil-goggles-mode))
 
+
 (use-package evil-lion)
+
 
 (use-package evil-exchange
   :config
   (evil-exchange-install))
 
+
 (use-package evil-matchit
   :config
   (global-evil-matchit-mode 1))
+
 
 (use-package evil-collection
   :after evil
   :config
   (evil-collection-init))
 
+
 (use-package evil-surround
   :config
   (global-evil-surround-mode 1))
+
 
 (use-package evil-commentary
   :config
   (evil-commentary-mode))
 
+
+(defun my-project-find-file ()
+  "Find a file from the current project."
+  (interactive)
+
+  (if-let ((project (project-current)))
+
+      (let* ((root (project-root project))
+             (default-directory root)
+             (files (project-files project)))
+
+        (find-file
+         (completing-read
+          "Find file: "
+          files
+          nil
+          t)))
+
+    (let* ((default-directory
+             (read-directory-name
+              "Directory: "
+              default-directory))
+           (files
+            (directory-files-recursively
+             default-directory
+             ".*"
+             nil)))
+
+      (find-file
+       (completing-read
+        "Find file: "
+        files
+        nil
+        t)))))
+
+(defun reload-init-file ()
+  "Reload Emacs configuration."
+  (interactive)
+  (load-file user-init-file)
+  (message "Reloaded done"))
+
+
 (use-package general
   :config
+
   (general-evil-setup t)
 
   (general-create-definer leader
@@ -339,36 +376,53 @@
     :prefix "SPC")
 
   (leader
-    "f f" '(consult-fd :which-key "Find File")
-    "f r" '(consult-recent-file :which-key "Recent")
-    "f s" '(save-buffer :which-key "Save")
-    "b b" '(switch-to-buffer :which-key "Buffers")
-    "b d" '(kill-current-buffer :which-key "Kill Buffer")
-    "w v" '(split-window-right :which-key "Vertical")
-    "w d" '(delete-window :which-key "Delete")
-    "g s" '(magit-status :which-key "Magit")
-    "h r" '(reload-init-file :which-key "Reload Config")
-    "/" '(consult-line :which-key "Search")
-    "y" '(evil-yank :which-key "Yank")
-    "t t" '(vterm :which-key "Terminal")
-    "ss" '((lambda () (interactive) (evil-ex "%s/")) :which-key "Replace (vim style)")))
+    "f f" '(my-project-find-file
+            :which-key "Find File")
 
-(defun reload-init-file ()
-  (interactive)
-  (load-file user-init-file)
-  (message "Reloaded done"))
+    "f r" '(consult-recent-file
+            :which-key "Recent")
+
+    "f s" '(save-buffer
+            :which-key "Save")
+
+    "b b" '(switch-to-buffer
+            :which-key "Buffers")
+
+    "b d" '(kill-current-buffer
+            :which-key "Kill Buffer")
+
+    "w v" '(split-window-right
+            :which-key "Vertical")
+
+    "w d" '(delete-window
+            :which-key "Delete")
+
+    "g s" '(magit-status
+            :which-key "Magit")
+
+    "h r" '(reload-init-file
+            :which-key "Reload Config")
+
+    "/" '(consult-line
+          :which-key "Search")
+
+    "y" '(evil-yank
+          :which-key "Yank")
+
+    "ss"
+    '((lambda ()
+        (interactive)
+        (evil-ex "%s/"))
+      :which-key "Replace (vim style)")
+
+    "t t" '(vterm
+            :which-key "Terminal")))
+
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(package-selected-packages nil))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(custom-set-faces)
+
+
 (provide 'init)
