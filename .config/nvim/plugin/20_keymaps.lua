@@ -20,7 +20,6 @@ vim.keymap.set("n", "<leader>f", function()
 end)
 
 
-
 vim.keymap.set("n", "<leader>e", function()
   vim.diagnostic.open_float(nil, {
     border = "rounded",

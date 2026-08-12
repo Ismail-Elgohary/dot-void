@@ -101,6 +101,14 @@
 
 (global-display-line-numbers-mode 1)
 
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode 1)
+
+(set-fringe-mode 0)
+
+(set-face-attribute 'fill-column-indicator nil
+                    :foreground "#665c54")
+
 (dolist (hook '(org-mode-hook
                 term-mode-hook
                 eshell-mode-hook
@@ -111,9 +119,9 @@
 
 (electric-pair-mode 1)
 
-(use-package doom-themes
+(use-package gruvbox-theme
   :config
-  (load-theme 'doom-one t))
+  (load-theme 'gruvbox-dark-medium t))
 
 (use-package nerd-icons)
 
@@ -121,7 +129,12 @@
   :init
   (doom-modeline-mode 1)
   :custom
-  (doom-modeline-height 25))
+  (doom-modeline-height 25)
+
+  :config
+  (set-face-attribute 'mode-line nil
+                      :background "#3c3836"
+                      :foreground "#ebdbb2"))
 
 (use-package rainbow-delimiters
   :hook
@@ -132,7 +145,7 @@
   :init
   (vertico-mode)
   :custom
-  (vertico-count 20)
+  (vertico-count 10)
   (vertico-resize nil)
   (vertico-cycle t)
   (vertico-preselect 'first))
