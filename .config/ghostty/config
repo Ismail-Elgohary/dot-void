@@ -2,7 +2,7 @@ font-size = 20
 
 background = #282828
 foreground = #ebdbb2
-background-opacity = 1
+background-opacity = 0.5
 cursor-color = #ebdbb2
 selection-background = #504945
 selection-foreground = #ebdbb2

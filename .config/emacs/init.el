@@ -17,8 +17,8 @@
 
 (setq package-archives
       '(("melpa" . "https://melpa.org/packages/")
-        ("org"   . "https://orgmode.org/elpa/")
-        ("elpa"  . "https://elpa.gnu.org/packages/")))
+        ("org" . "https://orgmode.org/elpa/")
+        ("elpa" . "https://elpa.gnu.org/packages/")))
 
 (setq package-archive-priorities
       '(("melpa" . 10)
@@ -38,15 +38,30 @@
 (setq use-package-always-ensure t)
 (setq use-package-verbose nil)
 
-(setq inhibit-startup-message t
-      initial-scratch-message nil
-      use-dialog-box nil
-      ring-bell-function 'ignore
-      visible-bell nil
-      create-lockfiles nil
-      make-backup-files nil
-      auto-save-default nil
-      custom-safe-themes t)
+(setopt
+ inhibit-startup-screen t
+ inhibit-startup-message t
+ initial-scratch-message nil
+ initial-buffer-choice t
+ menu-bar-mode nil
+ tool-bar-mode nil
+ scroll-bar-mode nil
+ use-dialog-box nil
+ cursor-type 'box
+ tab-bar-show nil
+ tab-bar-close-button-show nil
+ use-short-answer t
+ visible-bell nil
+ ring-bell-function 'ignore
+ indicate-empty-lines t
+ show-trailing-whitespace t)
+
+(setq-default
+ indent-tabs-mode nil
+ tab-width 8
+ fill-column 80)
+
+(setq indent-line-function 'insert-tab)
 
 (setq backup-directory-alist
       `(("." . ,(expand-file-name "backups"
@@ -83,28 +98,14 @@
   :custom
   (auto-revert-verbose nil))
 
-
-(setq-default indent-tabs-mode nil
-              tab-width 2)
-
 (global-set-key (kbd "<escape>") #'keyboard-escape-quit)
-
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(show-paren-mode 1)
-(blink-cursor-mode -1)
-(column-number-mode 1)
-(scroll-bar-mode -1)
-
-(setq display-line-numbers-type 'relative)
-
-(global-display-line-numbers-mode 1)
 
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode 1)
 
 (set-fringe-mode 0)
+
+(global-display-fill-column-indicator-mode 1)
 
 (set-face-attribute 'fill-column-indicator nil
                     :foreground "#665c54")
@@ -159,7 +160,9 @@
    '((file (styles orderless)))))
 
 (use-package consult
-  :ensure t)
+  :ensure t
+  :bind
+  ("C-s" . consult-line))
 
 (setq consult-preview-key 'any)
 
@@ -236,7 +239,6 @@
         (markdown
          "https://github.com/ikatyang/tree-sitter-markdown")))
 
-
 (use-package treesit-auto
   :custom
   (treesit-auto-install 'prompt)
@@ -293,7 +295,6 @@
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev))
 
-
 (use-package evil
   :init
   (setq evil-want-integration t
@@ -303,47 +304,38 @@
   :config
   (evil-mode 1))
 
-
 (use-package evil-goggles
   :config
   (evil-goggles-mode))
 
-
 (use-package evil-lion)
-
 
 (use-package evil-exchange
   :config
   (evil-exchange-install))
 
-
 (use-package evil-matchit
   :config
   (global-evil-matchit-mode 1))
-
 
 (use-package evil-collection
   :after evil
   :config
   (evil-collection-init))
 
-
 (use-package evil-surround
   :config
   (global-evil-surround-mode 1))
 
-
 (use-package evil-commentary
   :config
   (evil-commentary-mode))
-
 
 (defun my-project-find-file ()
   "Find a file from the current project."
   (interactive)
 
   (if-let ((project (project-current)))
-
       (let* ((root (project-root project))
              (default-directory root)
              (files (project-files project)))
@@ -356,9 +348,10 @@
           t)))
 
     (let* ((default-directory
-             (read-directory-name
-              "Directory: "
-              default-directory))
+            (read-directory-name
+             "Directory: "
+             default-directory))
+
            (files
             (directory-files-recursively
              default-directory
@@ -377,7 +370,6 @@
   (interactive)
   (load-file user-init-file)
   (message "Reloaded done"))
-
 
 (use-package general
   :config
@@ -422,20 +414,23 @@
     "y" '(evil-yank
           :which-key "Yank")
 
-    "ss"
+    "s s"
     '((lambda ()
         (interactive)
         (evil-ex "%s/"))
-      :which-key "Replace (vim style)")
+      :which-key "Replace")
 
     "t t" '(vterm
-            :which-key "Terminal")))
+            :which-key "Terminal"))
 
+  (custom-set-variables
+   '(package-selected-packages nil))
 
-(custom-set-variables
- '(package-selected-packages nil))
+  (custom-set-faces)
 
-(custom-set-faces)
+  (require 'server)
 
+  (unless (server-running-p)
+    (server-start))
 
-(provide 'init)
+  (provide 'init)

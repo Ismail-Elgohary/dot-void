@@ -108,7 +108,7 @@ dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 [ -s "$XDG_DATA_HOME/wall" ] && run wbg "$XDG_DATA_HOME/wall"
 
 
-run foot --server
+
 run kanshi
 run pipewire
 run mako
@@ -120,4 +120,7 @@ run syncthing serve --no-browser
 pidof -qsx mpd || (mpd && mpd-mpris) &
 run wl-paste -t text -w clipman store -P
 run waybar
+
+run emacs --daemon
+
 brightnessctl set 85%
