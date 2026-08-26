@@ -103,3 +103,6 @@ fi
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 [ -r /usr/share/z/z.sh ] && . /usr/share/z/z.sh
 
+
+# opencode
+export PATH=/home/ismail/.opencode/bin:$PATH

@@ -5,8 +5,8 @@ alias xr="sudo xbps-remove -R"
 alias xq="xbps-query -Rs"
 
 # shellcheck disable=SC2153
-alias vi='${EDITOR:-vi}'
-alias e='emacsclient -c -n'
+ alias e='${EDITOR:-vi}'
+alias em='emacsclient -c -n'
 alias q="exit"
 alias dm="nmtui"
 alias c="clear"

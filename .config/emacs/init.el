@@ -1,3 +1,5 @@
+;;; init.el -*- lexical-binding: t; -*-
+
 (setq gc-cons-threshold (* 50 1000 1000))
 (setq read-process-output-max (* 1024 1024))
 (setq load-prefer-newer t)
@@ -323,9 +325,9 @@
   :config
   (evil-collection-init))
 
-(use-package evil-surround
-  :config
-  (global-evil-surround-mode 1))
+;;(use-package evil-surround
+;;:config
+;;(global-evil-surround-mode 1))
 
 (use-package evil-commentary
   :config
