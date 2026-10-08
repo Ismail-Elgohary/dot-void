@@ -1,34 +1,30 @@
-[init]
-	defaultBranch = main
-
-[core]
-	editor = nvim
-	pager = delta
-
-[user]
-	name = Ismail-Elgohary
-	email = ismailelgohary173@gmail.com
-	sigingkey= ~/.ssh/id_ed25519.pub
-[gpg]
-	format = ssh
-
 [commit]
-	gpgsign = false
+    gpgSign = true
 
-[push]
-	default = simple
-	autoSetupRemote = true
+[tag]
+    gpgSign = true
+
+[gpg]
+    format = "openpgp"
 
 [pull]
-	rebase = true
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+    default = "simple"
+    gpgSign = "if-asked"
 
 [rebase]
-	autoStash = true
+    autoStash = true
 
-[delta]
-	tabs = 4
-	side-by-side = false
-	line-numbers = true
-	syntax-theme = Nord
-	file-modified-label = modified:
+[receive]
+    advertisePushOptions = true
 
+[rerere]
+    enabled = true
+
+[user]
+    email = "ismailelgohary173@gmail.com"
+    name = "Ismail-Elgohary"
+    signingKey = "3F5DE4E76993EB75B6A04B1C880D9B86C74189FD"
