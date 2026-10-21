@@ -83,4 +83,5 @@
               (kbd "<escape>")
               #'minibuffer-keyboard-quit))
 
-(provide 'config/core)
+(provide 'core)
+;;; core.el ends here

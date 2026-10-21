@@ -43,4 +43,4 @@
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-(provide 'config/ui)
+(provide 'ui)

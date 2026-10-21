@@ -1,4 +1,4 @@
-;;; config/terminal.el -*- lexical-binding: t; -*-
+;;; config/term.el -*- lexical-binding: t; -*-
 
 (use-package vterm)
 
@@ -13,4 +13,4 @@
   :config
   (windmove-default-keybindings 'control))
 
-(provide 'config/terminal)
+(provide 'term)

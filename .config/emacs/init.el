@@ -8,8 +8,8 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq gc-cons-threshold (* 20 1000 1000))))
-(add-to-list 'load-path
-             (expand-file-name "config" user-emacs-directory))
+
+(add-to-list 'load-path (expand-file-name "config" user-emacs-directory))
 
 (require 'package)
 
@@ -23,6 +23,10 @@
         ("melpa" . 10)))
 
 (package-initialize)
+
+;; Enable TypeScript mode automatically for TS and TSX files
+(add-to-list 'auto-mode-alist
+             '("\\.tsx?\\'" . typescript-ts-mode))
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -40,14 +44,16 @@
 
 (load custom-file 'noerror 'nomessage)
 
-(require 'config/core)
-(require 'config/ui)
-(require 'config/completion)
-(require 'config/lsp)
-(require 'config/keymaps)
-(require 'config/org)
-(require 'config/git)
-(require 'config/term)
+(require 'core)
+(require 'ui)
+(require 'completion)
+(require 'lsp)
+(require 'keymaps)
+(require 'my-config-org)
+(require 'git)
+(require 'term)
+(require 'formatting)
+(require 'pass)
 (require 'server)
 
 (unless (server-running-p)

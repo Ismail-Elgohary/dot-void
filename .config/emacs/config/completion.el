@@ -111,5 +111,5 @@
 
 (use-package yasnippet-snippets)
 
-(provide 'config/completion)
-
+(provide 'completion)
+;;; completion.el ends here

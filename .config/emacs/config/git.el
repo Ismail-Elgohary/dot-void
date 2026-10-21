@@ -2,4 +2,4 @@
 
 (use-package magit)
 
-(provide 'config/git)
+(provide 'git)
