@@ -44,6 +44,15 @@
 
 (load custom-file 'noerror 'nomessage)
 
+
+(setq-default fill-column 80)
+(add-hook 'text-mode-hook #'auto-fill-mode)
+(add-hook 'prog-mode-hook #'auto-fill-mode)
+(setq-default display-fill-column-indicator-column 80)
+(global-display-fill-column-indicator-mode 1)
+(add-hook 'typescript-ts-mode-hook
+          (lambda () (setq-local fill-column 80)))
+
 (require 'core)
 (require 'ui)
 (require 'completion)
@@ -51,10 +60,11 @@
 (require 'keymaps)
 (require 'my-config-org)
 (require 'git)
-(require 'term)
-(require 'formatting)
+(provide 'my-config-term)
+(require 'format)
 (require 'pass)
 (require 'server)
+(provide 'treesitter)
 
 (unless (server-running-p)
   (server-start))

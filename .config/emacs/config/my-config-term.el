@@ -13,4 +13,4 @@
   :config
   (windmove-default-keybindings 'control))
 
-(provide 'term)
+(provide 'my-config-term)

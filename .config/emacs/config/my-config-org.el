@@ -3,14 +3,15 @@
 (use-package org
   :ensure nil
   :hook
-  (org-mode . display-line-numbers-mode)
+  ((org-mode . display-line-numbers-mode)
+   (org-mode . org-indent-mode))
   :init
   (setopt org-directory "~/docs/notes/org")
   :config
   (setopt org-edit-src-content-indentation 0
-          org-hide-leading-stars           t
-          org-indent-mode                  t
-          org-return-follows-link          t)
+          org-hide-leading-stars t
+          org-return-follows-link t)
+
   (require 'org-tempo)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("go" . "src go"))
@@ -52,22 +53,24 @@
           org-download-image-dir (expand-file-name "attachments" org-directory)))
 
 (use-package org-roam
-  :hook (org-mode . org-roam-db-autosync-mode)
   :commands (org-roam-node-find
-			 org-roam-node-insert
-			 org-roam-dailies-goto-today
-			 org-roam-buffer-toggle
-			 org-roam-db-sync
-			 org-roam-capture)
+             org-roam-node-insert
+             org-roam-dailies-goto-today
+             org-roam-buffer-toggle
+             org-roam-db-sync
+             org-roam-capture)
   :init
   (setopt org-roam-directory "~/docs/notes/org/roam"
           org-roam-database-connector 'sqlite-builtin
           org-roam-completion-everywhere t
-          org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory)
+          org-roam-db-location
+          (expand-file-name "org-roam.db" org-roam-directory)
           org-roam-v2-ack t)
   :config
   (unless (file-exists-p org-roam-directory)
-	(make-directory org-roam-directory t)))
+    (make-directory org-roam-directory t))
+
+  (org-roam-db-autosync-mode))
 
 (use-package org-roam-ui
   :commands (org-roam-ui-mode org-roam-ui-open)

@@ -1,17 +1,18 @@
-;;; config/keymaps.el -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; -*-
+
+;; These variables must be set before Evil is loaded.
+(setq evil-want-integration t
+      evil-want-keybinding nil
+      evil-want-C-u-scroll t
+      evil-want-C-i-jump t
+      evil-want-Y-yank-to-eol t
+      evil-undo-system 'undo-redo
+      evil-split-window-below t
+      evil-vsplit-window-right t)
 
 (use-package evil
+  :ensure t
   :demand t
-
-  :init
-  (setq evil-want-integration t
-        evil-want-keybinding nil
-        evil-want-C-u-scroll t
-        evil-want-C-i-jump t
-        evil-want-Y-yank-to-eol t
-        evil-undo-system 'undo-redo
-        evil-split-window-below t
-        evil-vsplit-window-right t)
 
   :config
   (evil-mode 1)
@@ -35,37 +36,20 @@
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal))
 
-
-(use-package dirvish
-  :ensure t
-  :commands (dirvish)
-  :init
-  (dirvish-override-dired-mode))
-
 (use-package evil-collection
+  :ensure t
   :after evil
   :config
   (evil-collection-init))
 
 (use-package evil-goggles
+  :ensure t
   :after evil
   :config
   (evil-goggles-mode 1))
 
-(use-package evil-easymotion
-  :after evil)
-
-(use-package evil-lion
-  :after evil
-  :config
-  (evil-lion-mode 1))
-
-(use-package evil-exchange
-  :after evil
-  :config
-  (evil-exchange-install))
-
 (use-package evil-matchit
+  :ensure t
   :after evil
   :config
   (global-evil-matchit-mode 1))
@@ -121,17 +105,16 @@
   (leader
     "SPC" '(execute-extended-command
             :which-key "M-x")
-
     "/" '(consult-line
           :which-key "Search buffer")
-
+    "d" (kbd "\"_d")
+    "p" (kbd "\"_dP")
     "f" '(:ignore t :which-key "File")
     "f f" '(my-project-find-file :which-key "Find file")
     "f r" '(consult-recent-file :which-key "Recent files")
     "f s" '(save-buffer :which-key "Save")
     "f g" '(my-project-search :which-key "Search project")
     "f d" '(consult-fd :which-key "Find with fd")
-
     "b" '(:ignore t :which-key "Buffer")
     "b b" '(consult-buffer :which-key "Buffers")
     "b d" '(kill-current-buffer :which-key "Kill buffer")
@@ -142,22 +125,16 @@
     "b r" '(revert-buffer :which-key "Revert buffer")
     "b f" '(my-format-buffer :which-key "Format buffer")
     "b l" '(switch-to-buffer :which-key "Last buffer")
-
     "w" '(:ignore t :which-key "Window")
     "w v" '(split-window-right :which-key "Vertical")
-    "w s" '(split-window-below :which-key "Horizontal")
     "w d" '(delete-window :which-key "Delete")
-    "w o" '(delete-other-windows :which-key "Only window")
-
-    "p" '(:ignore t :which-key "Project")
     "p p" '(project-switch-project :which-key "Switch project")
     "p f" '(project-find-file :which-key "Project file")
     "p r" '(project-find-regexp :which-key "Project regexp")
     "p R" '(project-query-replace-regexp :which-key "Project replace")
-
-    "g" '(:ignore t :which-key "Git")
-    "g s" '(magit-status :which-key "Magit")
-
+    "g"     '(:ignore t :which-key "Magit")
+    "g s"   '(magit-status :which-key "Status")
+    "o t"   '(term-scratch :which-key "Scratch Terminal")
     "s" '(:ignore t :which-key "Search/Replace")
     "s s" '((lambda ()
               (interactive)
@@ -171,45 +148,34 @@
     "c a" '(eglot-code-actions :which-key "Code actions")
     "c n" '(eglot-rename :which-key "Rename")
     "c h" '(my-lsp-hover :which-key "Hover")
-
-    "d" '(:ignore t :which-key "Diagnostics")
-
     "t t" '(vterm :which-key "Terminal")
-
-    "o d" '(dirvish :which-key "Dirvish")
-
- ;;open  password store
-  "o"   '(:ignore t :which-key "Open")
-
-  "o p" '(:ignore t :which-key "Password Store")
-  "o p l" '(my/password-store-browse
-            :which-key "List entries")
-  "o p s" '(my/password-store-search
+    "dr" '(dirvish :which-key "Dirvish")
+    "o"   '(:ignore t :which-key "Open")
+    "o p" '(:ignore t :which-key "Password Store")
+    "o p l" '(my/password-store-browse
+			   :which-key "List entries")
+    "o p s" '(my/password-store-search
             :which-key "Search and copy")
-  "o p c" '(password-store-copy
+    "o p c" '(password-store-copy
             :which-key "Copy password")
-  "o p u" '(my/password-store-copy-username
+    "o p u" '(my/password-store-copy-username
             :which-key "Copy username")
-  "o p i" '(password-store-insert
+    "o p i" '(password-store-insert
             :which-key "Insert entry")
-  "o p e" '(password-store-edit
+    "o p e" '(password-store-edit
             :which-key "Edit entry")
-  "o p d" '(my/password-store-delete
+    "o p d" '(my/password-store-delete
             :which-key "Delete entry")
-  "o p g" '(password-store-generate
+    "o p g" '(password-store-generate
             :which-key "Generate password")
-  "o p r" '(my/password-store-rename
+    "o p r" '(my/password-store-rename
             :which-key "Rename entry")
-  "o p I" '(password-store-init
+    "o p I" '(password-store-init
             :which-key "Initialize store")
-
-
-
     "h" '(:ignore t :which-key "Help/Config")
     "h r" '(reload-init-file :which-key "Reload config")
 
     "C" '(org-capture :which-key "Org Capture")
-
     "n" '(:ignore t :which-key "Notes")
     "n r i" '(org-roam-capture :which-key "Org Roam Capture")
     "n r f" '(org-roam-node-find :which-key "Org Roam Find")

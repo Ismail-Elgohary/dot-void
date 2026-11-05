@@ -2,6 +2,7 @@
 
 (use-package zig-mode)
 
+;; Eglot + Flymake
 (use-package eglot
   :ensure nil
   :hook
@@ -15,18 +16,18 @@
     c++-ts-mode
     zig-mode)
    . eglot-ensure)
+
   :custom
   (eglot-autoshutdown t)
-  (eglot-events-buffer-size 0))
+  (eglot-events-buffer-size 0)
 
-(use-package flymake
-  :ensure nil
-  :custom
-  (flymake-show-diagnostics-at-end-of-line 'short))
-
-(use-package apheleia
   :config
-  (apheleia-global-mode +1))
+  (add-hook 'eglot-managed-mode-hook
+            (lambda ()
+              (flymake-mode 1))))
+
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 
 (defun my-project-find-file ()
   "Find a file in the current project.
@@ -44,6 +45,7 @@ Fall back to grep when rg is unavailable."
       (consult-ripgrep)
     (consult-grep)))
 
+;; Reload configuration
 (defun reload-init-file ()
   "Reload the main Emacs configuration."
   (interactive)
@@ -56,6 +58,16 @@ Fall back to grep when rg is unavailable."
   (if (fboundp 'consult-flymake)
       (consult-flymake)
     (flymake-show-buffer-diagnostics)))
+
+(defun my-flymake-goto-next-error ()
+  "Go to the next Flymake diagnostic."
+  (interactive)
+  (flymake-goto-next-error))
+
+(defun my-flymake-goto-prev-error ()
+  "Go to the previous Flymake diagnostic."
+  (interactive)
+  (flymake-goto-prev-error))
 
 (defun my-eglot-managed-p ()
   "Return non-nil when the current buffer is managed by Eglot."
